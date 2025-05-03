@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>داشبورد کاربر</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h1>👤 خوش آمدید {{ session['user']['fullname'] }}</h1>
+            {% if session['user']['photo'] %}
+                <img src="{{ url_for('static', filename='uploads/' + session['user']['photo']) }}" alt="تصویر کاربر" style="width: 60px; height: 60px; border-radius: 50%;">
+            {% endif %}
+        </div>
+
+        <div class="button-container">
+            <a href="/driver_queue" class="btn">🚕 صف راننده‌ها</a>
+            <a href="/trip_report" class="btn">📊 گزارش‌گیری</a>
+
+            <form action="{{ url_for('logout') }}" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-red">🚪 خروج</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

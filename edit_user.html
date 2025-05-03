@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>ویرایش کاربر</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Vazir, sans-serif;
+            background-color: #f4f8fb;
+            padding: 30px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #007bff;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="file"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        .form-img-preview {
+            margin-top: 15px;
+            text-align: center;
+        }
+        .form-img-preview img {
+            max-width: 200px;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            background-color: #00a8ff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #007acc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>ویرایش اطلاعات کاربر</h2>
+        <form method="POST" enctype="multipart/form-data">
+            <label>نام:</label>
+            <input type="text" name="name" value="{{ user['name'] }}" required>
+
+            <label>نام خانوادگی:</label>
+            <input type="text" name="family" value="{{ user['family'] }}" required>
+
+            <label>نام کاربری:</label>
+            <input type="text" name="username" value="{{ user['username'] }}" required>
+
+            <label>کلمه عبور جدید (اختیاری):</label>
+            <input type="password" name="password">
+
+            <label>شماره تماس:</label>
+            <input type="tel" name="phone" value="{{ user['phone'] }}" required>
+
+            <label>نقش:</label>
+            <select name="role" required>
+                <option value="admin" {% if user['role'] == 'admin' %}selected{% endif %}>مدیر</option>
+                <option value="sales" {% if user['role'] == 'sales' %}selected{% endif %}>کاربر فروش</option>
+            </select>
+
+            <label>تصویر جدید (اختیاری):</label>
+            <input type="file" name="image" accept="image/*">
+
+            <div class="form-img-preview">
+                <p>تصویر فعلی:</p>
+                {% if user['image_path'] %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ user['image_path']) }}" alt="User Photo">
+                {% else %}
+                    <p>بدون تصویر</p>
+                {% endif %}
+            </div>
+
+            <button type="submit">ذخیره تغییرات</button>
+        </form>
+    </div>
+</body>
+</html>

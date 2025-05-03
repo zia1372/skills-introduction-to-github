@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>صف رانندگان</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>مدیریت صف رانندگان</h2>
+
+        <form method="POST" class="form-box">
+            <label for="driver_id">انتخاب راننده برای ورود به صف:</label>
+            <select name="driver_id" id="driver_id" required>
+                <option value="">-- انتخاب راننده --</option>
+                {% for driver in drivers %}
+                    <option value="{{ driver.id }}">{{ driver.full_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">افزودن به صف</button>
+        </form>
+
+        <hr>
+
+        <h3>لیست صف فعلی:</h3>
+        {% if queue %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ردیف</th>
+                        <th>نام راننده</th>
+                        <th>زمان ورود به صف</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in queue %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ item.full_name }}</td>
+                        <td>{{ item.entry_time }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>هیچ راننده‌ای در صف نیست.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

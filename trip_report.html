@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>گزارش سفرها</title>
+    <style>
+        body {
+            font-family: "Vazir", sans-serif;
+            padding: 20px;
+            background-color: #f5f8fa;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #4fc3f7;
+            color: white;
+        }
+        input {
+            padding: 5px;
+            margin: 5px;
+        }
+        .filter-box {
+            background: #e0f7fa;
+            padding: 10px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>📊 گزارش سفرها</h2>
+
+    <form method="POST" class="filter-box">
+        <label>نام راننده:</label>
+        <input type="text" name="driver" value="{{ filters.driver }}">
+        <label>تاریخ (yyyy-mm-dd):</label>
+        <input type="date" name="date" value="{{ filters.date }}">
+        <label>مقصد:</label>
+        <input type="text" name="destination" value="{{ filters.destination }}">
+        <button type="submit">فیلتر</button>
+    </form>
+
+    {% if trips %}
+    <table>
+        <thead>
+            <tr>
+                <th>کد</th>
+                <th>نام راننده</th>
+                <th>مقصد</th>
+                <th>کرایه (تومان)</th>
+                <th>تاریخ و زمان حرکت</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trip in trips %}
+            <tr>
+                <td>{{ trip.id }}</td>
+                <td>{{ trip.driver_name }}</td>
+                <td>{{ trip.destination }}</td>
+                <td>{{ trip.fare }}</td>
+                <td>{{ trip.start_time }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>📭 سفری یافت نشد.</p>
+    {% endif %}
+</body>
+</html>

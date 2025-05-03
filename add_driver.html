@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>افزودن راننده</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Vazir', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+        }
+        .message.success { background-color: #d4edda; color: #155724; }
+        .message.danger { background-color: #f8d7da; color: #721c24; }
+        .message.warning { background-color: #fff3cd; color: #856404; }
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        table th {
+            background-color: #f0f0f0;
+        }
+        img.thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>ثبت راننده جدید</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data">
+        <label>نام:</label>
+        <input type="text" name="name" required>
+
+        <label>نام خانوادگی:</label>
+        <input type="text" name="family" required>
+
+        <label>کد ملی:</label>
+        <input type="text" name="national_code" required>
+
+        <label>شماره تماس:</label>
+        <input type="text" name="phone" required>
+
+        <label>نوع خودرو:</label>
+        <input type="text" name="car_model" required>
+
+        <label>پلاک خودرو:</label>
+        <input type="text" name="license_plate" required>
+
+        <label>تصویر راننده:</label>
+        <input type="file" name="image" accept="image/*" required>
+
+        <button type="submit">ثبت راننده</button>
+    </form>
+
+    {% if drivers %}
+        <h2 style="margin-top: 40px;">لیست رانندگان</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>تصویر</th>
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>کد ملی</th>
+                    <th>شماره تماس</th>
+                    <th>نوع خودرو</th>
+                    <th>پلاک</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for driver in drivers %}
+                    <tr>
+                        <td>
+                            {% if driver.image_path %}
+                                <img src="{{ url_for('static', filename='uploads/' ~ driver.image_path) }}" class="thumb">
+                            {% else %}
+                                ندارد
+                            {% endif %}
+                        </td>
+                        <td>{{ driver.name }}</td>
+                        <td>{{ driver.family }}</td>
+                        <td>{{ driver.national_code }}</td>
+                        <td>{{ driver.phone }}</td>
+                        <td>{{ driver.car_model }}</td>
+                        <td>{{ driver.license_plate }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+</body>
+</html>

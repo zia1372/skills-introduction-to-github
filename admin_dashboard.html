@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>داشبورد مدیر</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>🌟 خوش آمدید مدیر گرامی {{ session['username'] }}</h1>
+        <div class="button-container">
+            <a href="/add_driver" class="btn">➕ افزودن راننده</a>
+            <a href="/add_user" class="btn">➕ افزودن کاربر</a>
+            <a href="/users" class="btn">🛠️ مدیریت کاربران</a>
+           <form action="{{ url_for('logout') }}" method="post" style="display:inline;">
+    <button type="submit" class="btn btn-red">🚪 خروج</button>
+</form>
+
+        </div>
+    </div>
+</body>
+</html>
